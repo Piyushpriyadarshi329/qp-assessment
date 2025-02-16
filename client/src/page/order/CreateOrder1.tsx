@@ -1,9 +1,11 @@
 
 import axios from "axios";
-import { useState ,useEffect} from "react";
+import { useState ,useEffect, useContext} from "react";
 import { CREATEORDER_URL, GETPRODUCT_URL } from "../../config/URL";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../App";
+
 
 
 interface Product {
@@ -17,6 +19,8 @@ interface Product {
 
 export default function CreateOrder() {
   const navigate = useNavigate();
+  const Auth=useContext(AuthContext)
+  console.log("Auth",Auth)
 
       const [products, setproducts] = useState<any>([])
       useEffect(()=>{
@@ -66,7 +70,7 @@ export default function CreateOrder() {
   async function submitOrder() {
     try {
       let payload = {
-        userId: 1,
+        userId: Auth.state.user.id,
         products: cart
       }
       let res:any = await axios.post(CREATEORDER_URL, payload)

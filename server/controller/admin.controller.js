@@ -58,7 +58,7 @@ exports.loginAdmin = (req, res) => {
       let resultUser=  await connection.promise().query(sql2);
       console.log("resultUser",resultUser[0])
       if(resultUser[0].length){
-        res.status(201).json({success:true, message: 'User login successfully', user:{...result[0],isAdmin:false} });
+        res.status(201).json({success:true, message: 'User login successfully', user:{...resultUser[0]?.[0],isAdmin:false} });
 
       }else{
         res.status(500).json({ success: false, message:"no user Found" });

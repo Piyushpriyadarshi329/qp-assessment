@@ -13,6 +13,7 @@ exports.getOrder = (req, res) => {
 FROM CustomerOrder o
 JOIN CustomerSubOrder i ON o.id = i.orderId
 JOIN Product p ON i.productId = p.id
+where userId=${userId}
 ORDER BY o.id;`, (err, rows) => {
         if (err) {
             res.json({

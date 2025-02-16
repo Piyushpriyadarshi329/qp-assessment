@@ -8,7 +8,7 @@ const Login = () => {
   const Auth=useContext(AuthContext)  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const navigate = useNavigate();
 
   console.log(Auth)
@@ -26,7 +26,7 @@ const Login = () => {
    console.log("res",res)
 
    if(res.data.success){
-    Auth.dispatch({ type: "LOGIN",user:res.data.user })
+    Auth.dispatch({ type: "LOGIN",user:res.data.user,payload:res.data.user })
     if(res.data?.user?.isAdmin){
         navigate("/product")
     }else{
@@ -40,7 +40,7 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-900">
       <div className="bg-gray-900 p-8 rounded-lg shadow-md w-96">
         <h2 className="text-2xl font-bold text-center mb-4">🔐 Login</h2>
-        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+        {/* {error && <p className="text-red-500 text-sm text-center">{error}</p>} */}
         <form onSubmit={handleLogin} className="flex flex-col space-y-4">
           <input
             type="email"

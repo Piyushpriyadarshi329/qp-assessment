@@ -9,7 +9,7 @@ services:
       - "3306:3306" 
     restart: always
     volumes:
-      - my-db_2:/var/lib/mysql
+      - my-db_7:/var/lib/mysql
   
 
   web:
@@ -51,4 +51,4 @@ services:
 
 
 volumes:
-  my-db_2:    
+  my-db_7:    

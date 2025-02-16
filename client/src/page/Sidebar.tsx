@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiMenu, FiX, FiHome, FiUser } from "react-icons/fi";
+import { AuthContext } from "../App";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const Auth=useContext(AuthContext)
 
   return (
     <div className="flex">
@@ -20,7 +22,10 @@ const Sidebar = () => {
           </button>
         </div>
         <nav className="flex flex-col mt-4 space-y-2">
-          <Link to="/product" className="px-4 py-2 flex items-center space-x-2 hover:bg-gray-700">
+          {Auth.state.user.isAdmin?(
+            <>
+            
+            <Link to="/product" className="px-4 py-2 flex items-center space-x-2 hover:bg-gray-700">
             <FiHome /> <span onClick={()=>{
                 setIsOpen(false)
             }}>Product</span>
@@ -35,10 +40,24 @@ const Sidebar = () => {
                 setIsOpen(false)
             }}>User</span>
           </Link>
+          </>
+          ):(
+            <>
+            </>
+
+          )}
+
+          
+
           <Link to="/order" className="px-4 py-2 flex items-center space-x-2 hover:bg-gray-700">
             <FiHome /> <span onClick={()=>{
                 setIsOpen(false)
             }}>Order</span>
+          </Link>
+          <Link to="/order" className="px-4 py-2 flex items-center space-x-2 hover:bg-gray-700">
+            <FiUser /> <span onClick={()=>{
+                Auth.dispatch({type:"LOGOUT"})
+            }}>Logout</span>
           </Link>
           
         

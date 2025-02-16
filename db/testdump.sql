@@ -9,6 +9,9 @@ CREATE TABLE GroceryAdmin(
        password VARCHAR(50),
        UNIQUE KEY unique_email (email)
 );
+INSERT INTO GroceryAdmin( name, email, mobile, password ) VALUES ('admin', 'admin@yopmail.com', 9999999999, 'admin@123');
+
+
 
 
 
@@ -48,6 +51,7 @@ CREATE TABLE CustomerSubOrder(
 
 ALTER TABLE GroceryAdmin ADD CONSTRAINT unique_email UNIQUE (email);
 ALTER TABLE Customer ADD CONSTRAINT unique_email UNIQUE (email);
+
 
 
 

@@ -9,5 +9,6 @@ export const GETUSER_URL=base_URL+"/user"
 export const CREATEUSER_URL=base_URL+"/user"
 export const CREATEORDER_URL=base_URL+"/order"
 export const GETORDER_URL=base_URL+"/order"
+export const GETORDERBYUSERID_URL=base_URL+"/order/orderbyuserid"
 export const LOGIN_URL= base_URL+"/admin/login"
 

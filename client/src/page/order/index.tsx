@@ -1,56 +1,29 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GETORDER_URL } from "../../config/URL";
+import {  GETORDERBYUSERID_URL } from "../../config/URL";
 import axios from "axios";
+import { AuthContext } from "../../App";
 
 export default function index() {
   const navigate = useNavigate();
+  const Auth=useContext(AuthContext)
+  console.log("Auth",Auth)
 
 
   const [orders, setorders] = useState<any>([])
-
-  // let orders=[
-  //   {
-  //     orderId:1,
-  //     product:[
-  //       {name:"milk",price:40,qty:6},
-  //       {name:"Butter",price:10,qty:6},
-
-  //     ]
-
-  //   },
-  //   {
-  //     orderId:2,
-  //     product:[
-  //       {name:"milk",price:40,qty:9},
-  //       {name:"Butter",price:10,qty:10},
-
-  //     ]
-
-  //   }
-  // ]
-
   async function getOrder(){
-  const res= await axios.get(GETORDER_URL)
+  const res= await axios.post(GETORDERBYUSERID_URL,{userId:Auth.state.user.id})
   if(res.data.success){
     let localOrder:any=[]
 
     res.data.order?.map((i:any)=>{
       const index = localOrder.findIndex((order: any) => order.orderId === i.orderId);
-      console.log("index",index)
       if(index>=0){
-
         localOrder[index].product.push(i)
-
       }else{
         localOrder.push({orderId:i.orderId,product:[i]})
-
       }
-
-
-
     })
-    console.log("localOrder",localOrder)
 
     setorders(localOrder)
   }
