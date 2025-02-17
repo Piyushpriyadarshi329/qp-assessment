@@ -2,6 +2,9 @@
 import axios from "axios";
 import React, { useState,useEffect } from "react";
 import { GETUSER_URL, CREATEUSER_URL } from "../../config/URL"
+import { FiXCircle } from "react-icons/fi";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 
@@ -19,9 +22,6 @@ const index: React.FC = () => {
     });
 
     const [isFormOpen, setIsFormOpen] = useState(false);
-
-
-
     useEffect(()=>{
     getProduct()
     },[])
@@ -61,7 +61,9 @@ const index: React.FC = () => {
         // const { name, email,mobile, password } = req.body;
 
         let res:any =await axios.post(CREATEUSER_URL,{name:newProduct.name,email:newProduct.email,password:newProduct.password,mobile:newProduct.mobile})
-        console.log("res",res)
+        if(res.data.success){
+            toast("User create successfully")
+        }
         setloader(false)
         getProduct()
         setNewProduct({ id: 0, productName: "", price: undefined, Stock: undefined });
@@ -76,15 +78,19 @@ const index: React.FC = () => {
 
     return (
         <div className="flex flex-col w-full justify-center items-center min-h-screen bg-gray-700">
+            <ToastContainer/>
             {isFormOpen && <>
                 <div className="mb-6 bg-gray p-6 rounded-md shadow-lg w-96">
+                     <div className="flex justify-end w-full">
+                                            <FiXCircle
+                                                onClick={() => {
+                                                    setIsFormOpen(false);
+                    
+                                                }}
+                                            />
+                                        </div>
                     <h2 className="text-lg font-bold mb-4 text-center">Add User</h2>
-                    <button onClick={() => {
-                        setIsFormOpen(false);
-
-                    }}>
-                        close
-                    </button>
+                    
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <input

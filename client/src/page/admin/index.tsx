@@ -2,6 +2,9 @@
 import axios from "axios";
 import React, { useState,useEffect } from "react";
 import { GETADMIN_URL, CREATEADMIN_URL } from "../../config/URL"
+import { FiXCircle } from "react-icons/fi";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 
@@ -51,7 +54,6 @@ const index: React.FC = () => {
         }
         e.preventDefault();
 
-        console.log("newProduct",newProduct)
 
         if (!newProduct.name || !newProduct.email  || !newProduct.password || !newProduct.mobile) {
             alert("Please enter valid Admin details!");
@@ -62,6 +64,9 @@ const index: React.FC = () => {
 
         let res:any =await axios.post(CREATEADMIN_URL,{name:newProduct.name,email:newProduct.email,password:newProduct.password,mobile:newProduct.mobile})
         console.log("res",res)
+        if(res.data.success){
+            toast("Admin create successfully")
+        }
         setloader(false)
         getProduct()
         setNewProduct({ id: 0, productName: "", price: undefined, Stock: undefined });
@@ -76,15 +81,19 @@ const index: React.FC = () => {
 
     return (
         <div className="flex flex-col w-full justify-center items-center min-h-screen bg-gray-700">
+            <ToastContainer/>
             {isFormOpen && <>
                 <div className="mb-6 bg-gray p-6 rounded-md shadow-lg w-96">
+                     <div className="flex justify-end w-full">
+                                            <FiXCircle
+                                                onClick={() => {
+                                                    setIsFormOpen(false);
+                    
+                                                }}
+                                            />
+                                        </div>
                     <h2 className="text-lg font-bold mb-4 text-center">Add Admin</h2>
-                    <button onClick={() => {
-                        setIsFormOpen(false);
-
-                    }}>
-                        close
-                    </button>
+                  
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <input

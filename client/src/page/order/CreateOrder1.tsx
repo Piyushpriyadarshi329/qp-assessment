@@ -110,7 +110,15 @@ export default function CreateOrder() {
                 <td className="p-2 border">₹{product.price}</td>
                 <td className="p-2 border">
                   <button
-                    onClick={() => addToCart(product)}
+                    onClick={() =>{
+                      if(product.Stock>0){
+                        addToCart(product)
+
+                      }else{
+                        toast("Stock is not avilable");
+
+                      }
+                    }}
                     className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                   >
                     Add to Cart

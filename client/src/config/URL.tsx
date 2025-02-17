@@ -3,6 +3,7 @@ let base_URL="http://localhost:5000"
 
 export const CREATEPRODUCT_URL=base_URL+"/product"
 export const GETPRODUCT_URL=base_URL+"/product"
+export const UPDATEPRODUCT_URL=base_URL+"/product/update"
 export const GETADMIN_URL=base_URL+"/admin"
 export const CREATEADMIN_URL=base_URL+"/admin"
 export const GETUSER_URL=base_URL+"/user"

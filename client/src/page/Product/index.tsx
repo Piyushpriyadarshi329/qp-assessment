@@ -1,6 +1,10 @@
 import axios from "axios";
-import React, { useState,useEffect } from "react";
-import { GETPRODUCT_URL,CREATEPRODUCT_URL } from "../../config/URL"
+import React, { useState, useEffect } from "react";
+import { GETPRODUCT_URL, CREATEPRODUCT_URL, UPDATEPRODUCT_URL } from "../../config/URL";
+import { FiEdit, FiXCircle } from "react-icons/fi";
+import { ToastContainer, toast } from 'react-toastify';
+
+
 
 
 
@@ -20,31 +24,31 @@ const ProductTable: React.FC = () => {
 
 
 
-    useEffect(()=>{
-    getProduct()
-    },[])
+    useEffect(() => {
+        getProduct()
+    }, [])
 
 
-    async function getProduct(){
-    try {
-        let res:any= await axios.get(GETPRODUCT_URL)
-        console.log("res",res)
-        if(res.data.success){
-            setproducts(res?.data?.product)
+    async function getProduct() {
+        try {
+            let res: any = await axios.get(GETPRODUCT_URL)
+            console.log("res", res)
+            if (res.data.success) {
+                setproducts(res?.data?.product)
 
-        }else{
-            setproducts([])
- 
+            } else {
+                setproducts([])
+
+            }
+
+        } catch (error) {
+            console.log(error)
+
         }
-        
-    } catch (error) {
-        console.log(error)
-        
-    }
     }
 
-    const handleSubmit =async (e: React.FormEvent) => {
-        if(loader){
+    const handleSubmit = async (e: React.FormEvent) => {
+        if (loader) {
             return
         }
         e.preventDefault();
@@ -53,8 +57,17 @@ const ProductTable: React.FC = () => {
             return;
         }
         setloader(true)
-        let res:any =await axios.post(CREATEPRODUCT_URL,{productName:newProduct.productName,price:Number(newProduct.price),stock:Number(newProduct.Stock)})
-        console.log("res",res)
+        let payload: any = { productName: newProduct.productName, price: Number(newProduct.price), stock: Number(newProduct.Stock) }
+        let url = CREATEPRODUCT_URL
+        if (newProduct.id) {
+            payload.productId = newProduct.id
+            url = UPDATEPRODUCT_URL
+        }
+        let res: any = await axios.post(url, payload)
+        console.log("res", res)
+        if(res.data.success){
+            toast("Product add Successfully")
+        }
         setloader(false)
         getProduct()
         setNewProduct({ id: 0, productName: "", price: undefined, Stock: undefined });
@@ -69,15 +82,20 @@ const ProductTable: React.FC = () => {
 
     return (
         <div className="flex flex-col w-full justify-center items-center min-h-screen bg-gray-700">
+            <ToastContainer/>
             {isFormOpen && <>
                 <div className="mb-6 bg-gray p-6 rounded-md shadow-lg w-96">
-                    <h2 className="text-lg font-bold mb-4 text-center">Add Product</h2>
-                    <button onClick={() => {
-                        setIsFormOpen(false);
+                    <div className="flex justify-end w-full">
+                        <FiXCircle
+                            onClick={() => {
+                                setIsFormOpen(false);
 
-                    }}>
-                        close
-                    </button>
+                            }}
+                        />
+                    </div>
+                    <h2 className="text-lg font-bold mb-4 text-center">Add Product</h2>
+
+
 
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <input
@@ -108,19 +126,19 @@ const ProductTable: React.FC = () => {
                             required
                         />
                         <button type="submit" className="w-full bg-green-500 text-white p-2 rounded-md hover:bg-green-700">
-                           {loader?(
-                            <>
-                            <p>
-                                ....
-                            </p>
-                            </>
-                           ):(
-                            <>
-                            <p>
-                            Add Product
-                            </p>
-                            </>
-                           )} 
+                            {loader ? (
+                                <>
+                                    <p>
+                                        ....
+                                    </p>
+                                </>
+                            ) : (
+                                <>
+                                    <p>
+                                        Add Product
+                                    </p>
+                                </>
+                            )}
                         </button>
                     </form>
                 </div>
@@ -147,15 +165,23 @@ const ProductTable: React.FC = () => {
                         <th className="border p-2">Product Name</th>
                         <th className="border p-2">Price</th>
                         <th className="border p-2">Stock</th>
+                        <th className="border p-2">Action</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map((product:any) => (
+                    {products.map((product: any) => (
                         <tr key={product.id} className="text-center hover:bg-gray-800">
                             <td className="border p-2">{product.id}</td>
                             <td className="border p-2">{product.productName}</td>
                             <td className="border p-2">₹{product.price}</td>
                             <td className="border p-2">{product.Stock}</td>
+                            <td className="border p-2 "><FiEdit onClick={() => {
+                                console.log("clicked")
+                                setIsFormOpen(true)
+                                setNewProduct(product)
+                            }} /></td>
+
                         </tr>
                     ))}
                 </tbody>
