@@ -27,6 +27,7 @@ const Login = () => {
 
    if(res.data.success){
     Auth.dispatch({ type: "LOGIN",user:res.data.user,payload:res.data.user })
+    localStorage.setItem("token",res.data.token)
     if(res.data?.user?.isAdmin){
         navigate("/product")
     }else{

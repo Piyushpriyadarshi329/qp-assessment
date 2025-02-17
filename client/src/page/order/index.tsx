@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {  GETORDERBYUSERID_URL } from "../../config/URL";
-import axios from "axios";
 import { AuthContext } from "../../App";
+import axiosInstance from "../../config/axiosInterceptors";
 
 export default function index() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function index() {
 
   const [orders, setorders] = useState<any>([])
   async function getOrder(){
-  const res= await axios.post(GETORDERBYUSERID_URL,{userId:Auth.state.user.id})
+  const res= await axiosInstance.post(GETORDERBYUSERID_URL,{userId:Auth.state.user.id})
   if(res.data.success){
     let localOrder:any=[]
 

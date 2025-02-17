@@ -1,8 +1,8 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { GETPRODUCT_URL, CREATEPRODUCT_URL, UPDATEPRODUCT_URL } from "../../config/URL";
 import { FiEdit, FiXCircle } from "react-icons/fi";
 import { ToastContainer, toast } from 'react-toastify';
+import axiosInstance from "../../config/axiosInterceptors";
 
 
 
@@ -31,7 +31,7 @@ const ProductTable: React.FC = () => {
 
     async function getProduct() {
         try {
-            let res: any = await axios.get(GETPRODUCT_URL)
+            let res: any = await axiosInstance.get(GETPRODUCT_URL)
             console.log("res", res)
             if (res.data.success) {
                 setproducts(res?.data?.product)
@@ -63,7 +63,7 @@ const ProductTable: React.FC = () => {
             payload.productId = newProduct.id
             url = UPDATEPRODUCT_URL
         }
-        let res: any = await axios.post(url, payload)
+        let res: any = await axiosInstance.post(url, payload)
         console.log("res", res)
         if(res.data.success){
             toast("Product add Successfully")

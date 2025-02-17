@@ -1,10 +1,10 @@
 
-import axios from "axios";
 import { useState ,useEffect, useContext} from "react";
 import { CREATEORDER_URL, GETPRODUCT_URL } from "../../config/URL";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../App";
+import axiosInstance from "../../config/axiosInterceptors";
 
 
 
@@ -30,7 +30,7 @@ export default function CreateOrder() {
     
         async function getProduct(){
         try {
-            let res:any= await axios.get(GETPRODUCT_URL)
+            let res:any= await axiosInstance.get(GETPRODUCT_URL)
             console.log("res",res)
             if(res.data.success){
                 setproducts(res?.data?.product)
@@ -73,7 +73,7 @@ export default function CreateOrder() {
         userId: Auth.state.user.id,
         products: cart
       }
-      let res:any = await axios.post(CREATEORDER_URL, payload)
+      let res:any = await axiosInstance.post(CREATEORDER_URL, payload)
       if(res.data.success){
        toast("Order Create Successfully");
        navigate("/order");

@@ -1,9 +1,9 @@
 
-import axios from "axios";
 import React, { useState,useEffect } from "react";
 import { GETUSER_URL, CREATEUSER_URL } from "../../config/URL"
 import { FiXCircle } from "react-icons/fi";
 import { ToastContainer, toast } from 'react-toastify';
+import axiosInstance from "../../config/axiosInterceptors";
 
 
 
@@ -29,7 +29,7 @@ const index: React.FC = () => {
 
     async function getProduct(){
     try {
-        let res:any= await axios.get(GETUSER_URL)
+        let res:any= await axiosInstance.get(GETUSER_URL)
         console.log("res",res)
         if(res.data.success){
             setproducts(res?.data?.user)
@@ -60,7 +60,7 @@ const index: React.FC = () => {
         setloader(true)
         // const { name, email,mobile, password } = req.body;
 
-        let res:any =await axios.post(CREATEUSER_URL,{name:newProduct.name,email:newProduct.email,password:newProduct.password,mobile:newProduct.mobile})
+        let res:any =await axiosInstance.post(CREATEUSER_URL,{name:newProduct.name,email:newProduct.email,password:newProduct.password,mobile:newProduct.mobile})
         if(res.data.success){
             toast("User create successfully")
         }

@@ -1,6 +1,6 @@
 
-import axios from "axios"
 import { CREATEPRODUCT_URL } from "../../config/URL"
+import axiosInstance from "../../config/axiosInterceptors"
 
 export default function AddProduct() {
 
@@ -12,7 +12,7 @@ async function addProduct(){
             stock:100
         }
 
-        let res:any= await axios.post(CREATEPRODUCT_URL,payload)
+        let res:any= await axiosInstance.post(CREATEPRODUCT_URL,payload)
         console.log("res",res)
 
         

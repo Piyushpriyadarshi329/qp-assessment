@@ -1,4 +1,7 @@
 const connection= require("./../config/db.connection")
+const SECRET_KEY = process.env.JWT_SECRET || "mysecretkey"; // Secret key for JWT
+const jwt = require("jsonwebtoken");
+
 
 exports.getAllAdmin = (req, res) => {
     connection.query("SELECT * FROM GroceryAdmin", (err, rows) => {
@@ -43,6 +46,9 @@ exports.loginAdmin = (req, res) => {
      if ( !email || !password) {
        return res.status(400).json({ error: 'Email and password  are required' });
      }
+     const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: "24h" });
+     console.log("token",token)
+
    
      const sql = `select * from GroceryAdmin where email= '${email}' and password = '${password}'`;
      const sql2 = `select * from Customer where email= '${email}' and password = '${password}'`;
@@ -58,14 +64,14 @@ exports.loginAdmin = (req, res) => {
       let resultUser=  await connection.promise().query(sql2);
       console.log("resultUser",resultUser[0])
       if(resultUser[0].length){
-        res.status(201).json({success:true, message: 'User login successfully', user:{...resultUser[0]?.[0],isAdmin:false} });
+        res.status(201).json({success:true, token, message: 'User login successfully', user:{...resultUser[0]?.[0],isAdmin:false} });
 
       }else{
         res.status(500).json({ success: false, message:"no user Found" });
       }
 
         }else{
-            res.status(201).json({success:true, message: 'Admin login successfully', user:{...result[0],isAdmin:true} });
+            res.status(201).json({success:true, token, message: 'Admin login successfully', user:{...result[0],isAdmin:true} });
 
         }
 

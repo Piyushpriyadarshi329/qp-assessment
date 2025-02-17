@@ -1,9 +1,9 @@
 
-import axios from "axios";
 import React, { useState,useEffect } from "react";
 import { GETADMIN_URL, CREATEADMIN_URL } from "../../config/URL"
 import { FiXCircle } from "react-icons/fi";
 import { ToastContainer, toast } from 'react-toastify';
+import axiosInstance from "../../config/axiosInterceptors";
 
 
 
@@ -32,7 +32,7 @@ const index: React.FC = () => {
 
     async function getProduct(){
     try {
-        let res:any= await axios.get(GETADMIN_URL)
+        let res:any= await axiosInstance.get(GETADMIN_URL)
         console.log("res",res)
         if(res.data.success){
             setproducts(res?.data?.admin)
@@ -62,7 +62,7 @@ const index: React.FC = () => {
         setloader(true)
         // const { name, email,mobile, password } = req.body;
 
-        let res:any =await axios.post(CREATEADMIN_URL,{name:newProduct.name,email:newProduct.email,password:newProduct.password,mobile:newProduct.mobile})
+        let res:any =await axiosInstance.post(CREATEADMIN_URL,{name:newProduct.name,email:newProduct.email,password:newProduct.password,mobile:newProduct.mobile})
         console.log("res",res)
         if(res.data.success){
             toast("Admin create successfully")
