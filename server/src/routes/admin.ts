@@ -1,5 +1,5 @@
 
-const express = require('express');
+import express from 'express'
 const router = express.Router();
 const {getAllAdmin,createAdmin,getAdminById,loginAdmin} = require("./../controller/admin.controller")
 
@@ -9,5 +9,5 @@ router.post('/',createAdmin);
 router.post('/login',loginAdmin);
 
 
-module.exports = router;
+export default router;
 

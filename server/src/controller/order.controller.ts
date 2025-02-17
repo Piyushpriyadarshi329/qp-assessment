@@ -1,6 +1,7 @@
-const connection = require("./../config/db.connection")
+import connection  from "./../config/db.connection"
+import  { Request,Response} from "express";
 
-exports.getOrder = (req, res) => {
+exports.getOrder = (req:Request, res:Response) => {
     const { userId } = req.body;
     connection.query(`SELECT 
     o.id AS orderId, 
@@ -29,11 +30,11 @@ ORDER BY o.id;`, (err, rows) => {
     });
 };
 
-exports.getOrderById = (req, res) => {
+exports.getOrderById = (req:Request, res:Response) => {
     res.json({ message: `Get user with ID: ${req.params.id}` });
 };
 
-exports.createOrder = async (req, res) => {
+exports.createOrder = async (req:Request, res:Response) => {
     const { userId, products } = req.body;
 
     if (!userId) {
@@ -42,7 +43,7 @@ exports.createOrder = async (req, res) => {
     try {
         // Insert order into CustomerOrder
         const sql1 = 'INSERT INTO CustomerOrder (userId, orderStatus) VALUES (?, ?)';
-        const [orderResult] = await connection.promise().query(sql1, [userId, 'Pending']);
+        const [orderResult] :any = await connection.promise().query(sql1, [userId, 'Pending']);
         const orderId = orderResult.insertId;
 
         // Insert products into CustomerSubOrder

@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express'
 const router = express.Router();
 const {getAllProduct,createProduct,updateProduct} = require("./../controller/product.controller")
 
@@ -7,5 +7,5 @@ router.post('/',createProduct);
 router.post('/update',updateProduct);
 
 
-module.exports = router;
+export default router;
 

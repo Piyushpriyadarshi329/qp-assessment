@@ -182,6 +182,13 @@ const index: React.FC = () => {
                     ))}
                 </tbody>
             </table>
+
+            {products?.length === 0 && (
+            <div className="w-full justify-center mt-10">
+
+              <h1 className="text-2xl font-bold mb-4">No Record Found</h1>
+            </div>
+          )}
         </div>
     );
 };

@@ -1,9 +1,10 @@
-const connection= require("./../config/db.connection")
+import  { Request,Response} from "express";
+import connection from "./../config/db.connection"
 const SECRET_KEY = process.env.JWT_SECRET || "mysecretkey"; // Secret key for JWT
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken"
 
 
-exports.getAllAdmin = (req, res) => {
+exports.getAllAdmin = (req:Request, res:Response) => {
     connection.query("SELECT * FROM GroceryAdmin", (err, rows) => {
         if (err) {
           res.json({
@@ -19,11 +20,11 @@ exports.getAllAdmin = (req, res) => {
       });    
   };
   
-exports.getAdminById = (req, res) => {
+exports.getAdminById = (req:Request, res:Response) => {
     res.json({ message: `Get user with ID: ${req.params.id}` });
   };
   
-exports.createAdmin = (req, res) => {
+exports.createAdmin = (req:Request, res:Response) => {
  const { name, email,mobile, password } = req.body;
 
   if (!name || !email || !mobile || !password) {
@@ -31,7 +32,7 @@ exports.createAdmin = (req, res) => {
   }
 
   const sql = 'INSERT INTO GroceryAdmin (name, email,mobile,password) VALUES (?, ?,?,?)';
-  connection.query(sql, [name, email,mobile, password], (err, result) => {
+  connection.query(sql, [name, email,mobile, password], (err, result:any) => {
     if (err) {
       console.error('Error inserting user:', err);
       return res.status(500).json({ error: 'Database error' });
@@ -40,7 +41,7 @@ exports.createAdmin = (req, res) => {
   })  };
 
 
-exports.loginAdmin = (req, res) => {
+exports.loginAdmin = (req:Request, res:Response) => {
     const { email, password } = req.body;
    
      if ( !email || !password) {
@@ -53,7 +54,7 @@ exports.loginAdmin = (req, res) => {
      const sql = `select * from GroceryAdmin where email= '${email}' and password = '${password}'`;
      const sql2 = `select * from Customer where email= '${email}' and password = '${password}'`;
 
-     connection.query(sql, async(err, result) => {
+     connection.query(sql, async(err, result:any) => {
        if (err) {
          console.error('Error inserting user:', err);
          return res.status(500).json({ error: 'Database error' });
@@ -61,7 +62,7 @@ exports.loginAdmin = (req, res) => {
 
         if(result?.length===0){
 
-      let resultUser=  await connection.promise().query(sql2);
+      let resultUser:any =  await connection.promise().query(sql2);
       console.log("resultUser",resultUser[0])
       if(resultUser[0].length){
         res.status(201).json({success:true, token, message: 'User login successfully', user:{...resultUser[0]?.[0],isAdmin:false} });

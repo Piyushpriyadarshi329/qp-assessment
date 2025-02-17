@@ -186,6 +186,13 @@ const ProductTable: React.FC = () => {
                     ))}
                 </tbody>
             </table>
+
+            {products?.length === 0 && (
+            <div className="w-full justify-center mt-10">
+
+              <h1 className="text-2xl font-bold mb-4">No Product Found, Please add Product.</h1>
+            </div>
+          )}
         </div>
     );
 };

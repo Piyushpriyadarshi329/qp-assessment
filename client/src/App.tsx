@@ -23,6 +23,8 @@ function App() {
     // console.log("JSON.parse(data).user",JSON.parse(data).user)
     if(data){
       dispatch({ type: "LOGIN",payload:JSON.parse(data).user})
+      navigate("/product")
+
 
     }else{
       navigate("/")

@@ -1,7 +1,11 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 const SECRET_KEY = process.env.JWT_SECRET || "mysecretkey"; // Secret key for JWT
+import  { Request,Response,NextFunction} from "express";
+interface AuthenticatedRequest extends Request {
+  user?: { id: string; name: string; email: string }; // Modify according to your user object
+}
 
-const verifyToken = (req, res, next) => {
+const verifyToken = (req:AuthenticatedRequest, res:Response, next:NextFunction) => {
     const token = req.header("Authorization")?.split(" ")[1];
   
     if (!token) return res.status(401).json({ error: "Access denied" });
@@ -16,5 +20,5 @@ const verifyToken = (req, res, next) => {
     }
   };
 
-  module.exports=verifyToken
+  export default verifyToken
   
