@@ -23,7 +23,7 @@ services:
       
 
     ports:
-      - "5000:5000"
+      - "7878:5000"
     depends_on:
       - db
     develop:

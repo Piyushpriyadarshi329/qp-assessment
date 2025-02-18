@@ -1,5 +1,5 @@
 
-let base_URL="http://localhost:5000"
+let base_URL="http://localhost:7878"
 
 export const CREATEPRODUCT_URL=base_URL+"/product"
 export const GETPRODUCT_URL=base_URL+"/product"
