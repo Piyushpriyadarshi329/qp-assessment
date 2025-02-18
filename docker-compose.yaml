@@ -6,7 +6,7 @@ services:
       MYSQL_ROOT_PASSWORD: piyush@123
       MYSQL_DATABASE: Grocery
     ports:
-      - "3306:3306" 
+      - "3310:3306" 
     restart: always
     volumes:
       - my-db_9:/var/lib/mysql
